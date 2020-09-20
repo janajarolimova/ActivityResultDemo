@@ -1,6 +1,7 @@
 package com.github.janajarolimova.activityresult.utils
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.widget.Toast
@@ -40,4 +41,15 @@ fun Uri.createDocument(context: Context) {
             Toast.LENGTH_LONG
         ).show()
     }
+}
+
+fun Uri.getDrawable(context: Context): Drawable? {
+    var image: Drawable? = null
+    runCatching {
+        image = Drawable.createFromStream(
+            context.contentResolver.openInputStream(this),
+            toString()
+        )
+    }
+    return image
 }

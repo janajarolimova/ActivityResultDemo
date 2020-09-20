@@ -31,7 +31,8 @@ class FoodPickerActivity : AppCompatActivity() {
                     view.setOnClickListener {
                         Intent().apply {
                             setResult(Activity.RESULT_OK, this)
-                            putExtra(EXTRA_FOOD_ITEM,
+                            putExtra(
+                                EXTRA_FOOD_ITEM,
                                 Food(
                                     view.text.toString()
                                 )

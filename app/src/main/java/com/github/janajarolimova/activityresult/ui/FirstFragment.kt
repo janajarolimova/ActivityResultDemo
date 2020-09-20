@@ -22,6 +22,7 @@ import com.github.janajarolimova.activityresult.R
 import com.github.janajarolimova.activityresult.contracts.GetFoodItemFromActivity
 import com.github.janajarolimova.activityresult.databinding.FragmentFirstBinding
 import com.github.janajarolimova.activityresult.utils.createDocument
+import com.github.janajarolimova.activityresult.utils.getDrawable
 import com.github.janajarolimova.activityresult.utils.registerForActivityResultInternal
 
 /**
@@ -63,7 +64,7 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
             })
 
     /**
-     *
+     * Launcher which opens camera to take picture and returns a bitmap as a result.
      */
     val takePicture =
         registerForActivityResultInternal(
@@ -77,8 +78,7 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
                             bitmap
                         )
                     )
-                }
-                    ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
+                } ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
             })
 
     /**
@@ -90,29 +90,17 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
             resultRegistry,
             ActivityResultCallback { uri ->
                 resultData = uri
-                uri?.let {
-                    var image: Drawable? = null
-                    runCatching {
-                        image = Drawable.createFromStream(
-                            requireActivity().contentResolver.openInputStream(uri),
-                            uri.toString()
+                uri?.getDrawable(requireContext())?.let {
+                    setImageResult(
+                        TypeDrawable(
+                            it
                         )
-                    }
-                    binding.resultContainer.addView(ImageView(requireContext()).apply {
-                        image?.let {
-                            setImageResult(
-                                TypeDrawable(
-                                    it
-                                )
-                            )
-                        }
-                    })
+                    )
                 } ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
-
             })
 
     /**
-     *
+     * Launcher for user to select path for new document to be created.
      */
     val createDocumentResult =
         registerForActivityResultInternal(
@@ -129,7 +117,7 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
             })
 
     /**
-     * Custom request for nullable [Food] result from [FoodPickerActivity].
+     * Launcher created with custom contract whose result is a nullable [Food] from [FoodPickerActivity].
      * [StartActivityForResult] could also be used here, but it would not provide type safety.
      */
     val customActivityResult =
@@ -193,13 +181,15 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
     }
 
     private fun setImageResult(image: ImageType) {
-        binding.resultContainer.removeAllViews()
-        binding.resultContainer.addView(ImageView(requireContext()).apply {
-            when (image) {
-                is TypeBitmap -> setImageBitmap(image.bitmap)
-                is TypeDrawable -> setImageDrawable(image.drawable)
-            }
-        })
+        if (isAdded) {
+            binding.resultContainer.removeAllViews()
+            binding.resultContainer.addView(ImageView(requireContext()).apply {
+                when (image) {
+                    is TypeBitmap -> setImageBitmap(image.bitmap)
+                    is TypeDrawable -> setImageDrawable(image.drawable)
+                }
+            })
+        }
     }
 }
 

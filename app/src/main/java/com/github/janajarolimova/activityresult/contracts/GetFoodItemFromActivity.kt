@@ -18,9 +18,9 @@ class GetFoodItemFromActivity : ActivityResultContract<Void?, Food?>() {
         Intent(context, FoodPickerActivity::class.java)
 
     override fun parseResult(resultCode: Int, result: Intent?) : Food? {
-        /*if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK) {
             return null
-        }*/
+        }
         return result?.getSerializableExtra(EXTRA_FOOD_ITEM) as Food
     }
 }
