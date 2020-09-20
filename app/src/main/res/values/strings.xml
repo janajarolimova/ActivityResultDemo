@@ -13,9 +13,6 @@
     <string name="return_result_text_input_hint">Enter result</string>
     <string name="button_grant_permission">Grant permission</string>
     <string name="button_select_photo">Select photo</string>
-    <string name="button_custom">Custom: Pick ringtone</string>
-
-    <string name="button_exit_navigation_component">Exit navigation architecture</string>
 
     <string name="select_food">Select food item from another activity with custom contract</string>
     <string name="food_banana">Banana</string>

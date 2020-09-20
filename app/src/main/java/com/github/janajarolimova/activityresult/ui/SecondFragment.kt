@@ -17,7 +17,7 @@ const val REQUEST_KEY = "request_key"
  */
 class SecondFragment : Fragment() {
 
-    lateinit var binding: FragmentSecondBinding
+    private lateinit var binding: FragmentSecondBinding
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,

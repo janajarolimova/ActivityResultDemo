@@ -45,23 +45,23 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
     val requestPermissions =
         registerForActivityResultInternal(
             ActivityResultContracts.RequestMultiplePermissions(),
-            resultRegistry,
-            ActivityResultCallback { permissions ->
-                resultData = permissions
-                StringBuilder().apply {
-                    for (permission in permissions) {
-                        append(permission.key)
-                        append(": ")
-                        append(if (permission.value) "granted\n" else "not granted\n")
-                    }
-                }.also {
-                    Toast.makeText(
-                        requireContext(),
-                        it.toString(),
-                        Toast.LENGTH_LONG
-                    ).show()
+            resultRegistry
+        ) { permissions ->
+            resultData = permissions
+            StringBuilder().apply {
+                for (permission in permissions) {
+                    append(permission.key)
+                    append(": ")
+                    append(if (permission.value) "granted\n" else "not granted\n")
                 }
-            })
+            }.also {
+                Toast.makeText(
+                    requireContext(),
+                    it.toString(),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
     /**
      * Launcher which opens camera to take picture and returns a bitmap as a result.
@@ -69,17 +69,17 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
     val takePicture =
         registerForActivityResultInternal(
             ActivityResultContracts.TakePicturePreview(),
-            resultRegistry,
-            ActivityResultCallback { bitmap: Bitmap? ->
-                resultData = bitmap
-                bitmap?.let {
-                    setImageResult(
-                        TypeBitmap(
-                            bitmap
-                        )
+            resultRegistry
+        ) { bitmap: Bitmap? ->
+            resultData = bitmap
+            bitmap?.let {
+                setImageResult(
+                    TypeBitmap(
+                        bitmap
                     )
-                } ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
-            })
+                )
+            } ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
+        }
 
     /**
      * Request for content of specified mime type defined in launch() when the result process is started.
@@ -87,17 +87,17 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
     val selectPicture =
         registerForActivityResultInternal(
             ActivityResultContracts.GetContent(),
-            resultRegistry,
-            ActivityResultCallback { uri ->
-                resultData = uri
-                uri?.getDrawable(requireContext())?.let {
-                    setImageResult(
-                        TypeDrawable(
-                            it
-                        )
+            resultRegistry
+        ) { uri ->
+            resultData = uri
+            uri?.getDrawable(requireContext())?.let {
+                setImageResult(
+                    TypeDrawable(
+                        it
                     )
-                } ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
-            })
+                )
+            } ?: Toast.makeText(requireContext(), "No result", Toast.LENGTH_LONG).show()
+        }
 
     /**
      * Launcher for user to select path for new document to be created.
@@ -105,16 +105,16 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
     val createDocumentResult =
         registerForActivityResultInternal(
             ActivityResultContracts.CreateDocument(),
-            resultRegistry,
-            ActivityResultCallback { uri ->
-                resultData = uri
-                uri?.createDocument(requireContext()) ?: Toast.makeText(
-                    requireContext(),
-                    "Nothing selected",
-                    Toast.LENGTH_LONG
-                )
-                    .show()
-            })
+            resultRegistry
+        ) { uri ->
+            resultData = uri
+            uri?.createDocument(requireContext()) ?: Toast.makeText(
+                requireContext(),
+                "Nothing selected",
+                Toast.LENGTH_LONG
+            )
+                .show()
+        }
 
     /**
      * Launcher created with custom contract whose result is a nullable [Food] from [FoodPickerActivity].
@@ -123,11 +123,11 @@ class FirstFragment(resultRegistry: ActivityResultRegistry? = null) : Fragment()
     val customActivityResult =
         registerForActivityResultInternal(
             GetFoodItemFromActivity(),
-            resultRegistry,
-            ActivityResultCallback { foodItem ->
-                resultData = foodItem
-                Toast.makeText(requireContext(), "${foodItem?.food}", Toast.LENGTH_LONG).show()
-            })
+            resultRegistry
+        ) { foodItem ->
+            resultData = foodItem
+            Toast.makeText(requireContext(), "${foodItem?.food}", Toast.LENGTH_LONG).show()
+        }
 
 
     override fun onCreateView(
