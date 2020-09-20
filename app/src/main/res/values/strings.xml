@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">ActivityResult</string>
+
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <string name="button_start_activity_for_result">Start activity for result with FragmentResultListener</string>
+    <string name="button_take_picture">Take picture</string>
+    <string name="button_select_path">Select path to create document</string>
+
+    <string name="button_submit_result">Submit result</string>
+    <string name="button_go_back">Go back</string>
+    <string name="return_result_text_input_hint">Enter result</string>
+    <string name="button_grant_permission">Grant permission</string>
+    <string name="button_select_photo">Select photo</string>
+    <string name="button_custom">Custom: Pick ringtone</string>
+
+    <string name="button_exit_navigation_component">Exit navigation architecture</string>
+
+    <string name="select_food">Select food item from another activity with custom contract</string>
+    <string name="food_banana">Banana</string>
+    <string name="food_berries">Berries</string>
+    <string name="food_grapefruit">Grapefruit</string>
+    <string name="food_hummus">Hummus</string>
+    <string name="food_falafel">Falafel</string>
+    <string name="food_rice">Rice</string>
+    <string name="food_spinach">Spinach</string>
+    <string name="food_broccoli">Broccoli</string>
+    <string name="food_sweet_potato">Sweet Potato</string>
+    <string name="food_chocolate">Chocolate</string>
+
+</resources>
